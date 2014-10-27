@@ -1,0 +1,6 @@
+Deploy Application Through Eclipse
+###############################
+- Make sure you're set up with Java 1.7 (Properties > Java Compiler and also change in Properties > Project Facets)
+- Go to project properties > Deployment Assembly and add all libs to be exported to WEB-INF/lib
+- Right click on the project > Run as > Run on Server, and create a new Amazon server with Tomcat 7
+
