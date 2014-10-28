@@ -16,7 +16,7 @@ public class Tweets {
 	private static final String TWEET_TABLE_NAME = "tweets";
 	public static final String[] VALID_KEYWORDS = {"columbia", "stanford", "harvard", 
 		"yale", "upenn", "carnegie", "cornell", "@mit", "ucberkeley", "princeton",
-		"caltech", "duke", "vanderbilt", "dartmouth", "georgia tech", "harvey mudd", 
+		"caltech", "duke", "vanderbilt", "dartmouth", "georgia tech", "harveymudd", 
 		"purdue", "georgetown", "brown university", "rice university", "darden", "wharton", "kellogg", 
 		"booth", "sloan", "haas", "tuck", "stern", "community college"};
 	

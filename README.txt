@@ -20,7 +20,7 @@ This is a Eclipse Java project. To run the project just make sure you have all e
 
 TWEET_FETCHER
 This is a Eclipse Java project for a regular java standalone application. You need to do is import the project in eclipse and run. Additionally you have to copy the "twitter.properties.default" file to a "twitter.properties" file and fill in your credentials so the application can access the Twitter API. The dependencies are: JDK 1.7 and AWS SDK for Java.
-To run this application using CRON every 15 minutes just issue the command "crontab -e" to edit the crontab and add the line "*/15 * * * * /usr/bin/java -jar PATH_TO_JAR". The "twitter.properties" file should be in the same folder as the JAR.
+To run this application using CRON every 15 minutes just issue the command "crontab -e" to edit the crontab and add the line "*/15 * * * * /usr/bin/java -jar PATH_TO_JAR >> /var/log/myjob.log 2>&1". The "twitter.properties" file should be in the same folder as the JAR.
 
 DEPLOYER
 This is a Eclipse Java project for a regular java standalone application. All you need to do is import the project in eclipse and run. The dependencies are: JDK 1.7 and AWS SDK for Java.
