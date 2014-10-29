@@ -105,6 +105,7 @@ TWEET DATA
 #############################  
 I downloaded arounf 100 million tweets (10GB of data) but I only saved around 2% of those tweets because I only wanted tweets with geotagging. By the time I am writing this readme, my datastore has around 1.5 million tweets related to all keywords chosen for this project. All the tweets are stored in DynamoDB and are loaded in real-time to be shown in the map (although the javascript breaks its requests in many different AJAX requests to be able to load all data).
 
+The data is loaded from twitter from 20 to 20 minutes and populated in DynamoDB, this way the application will always keep showing more recent tweets. This is done by a cronjob in the server that triggers the TWEET_FETCHER_TO_DYNAMO application. 
 
 #############################
 URL
