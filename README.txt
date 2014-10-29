@@ -7,20 +7,26 @@ REPOSITORY CONTENTS
 
 The complete assignment is saved in this repository. The top level of the repository contains:
 	- assignment1: java web application to show the tweets on the map
-	- tweet_fetcher: java application to fetch tweets from the Twitter API and to store tweets with geolocation in DynamoDB
+	- tweet_fetcher_to_dynamo: java application to fetch tweets from the Twitter API and to store tweets with geolocation in DynamoDB
+	- tweet_fetcher_to_local: java application to fetch tweets from the Twitter API and to store to local files
+	- tweet_loader_from_local_to_dynamo: java application to upload tweets from local files to dynamodb
 	- deployer: java application that deploys the web application programmatically to ElasticBeanstalk
-	- ...
+	- Tomcat: folder where Tomcat is installed, so the whole assignment is auto-contained
+	- assignment1-screencast: screencast of the web application
 
 #############################
-RUNNING THE APPLICATIONS (LOCALLY)
+RUNNING THE APPLICATIONS
 #############################
 
 WEB APPLICATION (assignment1)
 This is a Eclipse Java project. To run the project just make sure you have all external dependencies and import the project in Eclipse. The dependencies are: Tomcat 7, JDK 1.7 and AWS SDK for Java.
 
-TWEET_FETCHER
+TWEET_FETCHER_TO_DYNAMO
 This is a Eclipse Java project for a regular java standalone application. You need to do is import the project in eclipse and run. Additionally you have to copy the "twitter.properties.default" file to a "twitter.properties" file and fill in your credentials so the application can access the Twitter API. The dependencies are: JDK 1.7 and AWS SDK for Java.
 To run this application using CRON every 15 minutes just issue the command "crontab -e" to edit the crontab and add the line "*/15 * * * * /usr/bin/java -jar PATH_TO_JAR >> /var/log/myjob.log 2>&1". The "twitter.properties" file should be in the same folder as the JAR.
+
+TWEET_FETCHER_TO_LOCAL and TWEET_LOADER_FROM_LOCAL_TO_DYNAMO
+These application do not need to be run. I just created them because my AWS account was compromised and block for a week, and I needed to store tweets in my local machine to later upload them to DynamoDB.
 
 DEPLOYER
 This is a Eclipse Java project for a regular java standalone application. All you need to do is import the project in eclipse and run. The dependencies are: JDK 1.7 and AWS SDK for Java.
@@ -31,7 +37,7 @@ SYSTEM ARCHITECTURE
 
 The system is designed in the following way:
 	
-	- TWEET_FETCHER runs in a EC2 instance periodically, configured with CRON, and downloads all tweets it can related to the target fixed keywords. Every tweet with geo location is stored in DynamoDB, together with its coordinates and indexed by keyword. After 180 requests the Twitter API will refuse to respond and then TWEET_FETCHER finishes. After 15 minutes the Twitter API is accepting requests again and so TWEET_FETCHER is run by CRON every 15 minutes.
+	- TWEET_FETCHER_TO_DYNAMO runs in a EC2 instance periodically, configured with CRON, and downloads all tweets it can related to the target fixed keywords. Every tweet with geo location is stored in DynamoDB, together with its coordinates and indexed by keyword. After 180 requests the Twitter API will refuse to respond and then TWEET_FETCHER finishes. After 15 minutes the Twitter API is accepting requests again and so TWEET_FETCHER is run by CRON every 15 minutes.
 
 	- WEB APPLICATION (backend) runs in ElasticBeanstalk within a Autoscale group. This means the application can be running in multiple EC2 instances and have its requests forwarded by a node balancer. The WEB APPLICATION connects to DynamoDB to load data (like users, and tweets) and responds to HTTP requests of a client browser.
 
@@ -62,8 +68,47 @@ EXTRA FEATURES
 	- PROGRAMMATIC DEPLOY: As explained earlier, the DEPLOYER application take care of everything related to deploy and re-deploys.
 
 #############################
+PROGRAMMATIC DEPLOY STEPS
+#############################
+What the deployer does is basically:
+  1) Checks if the ElasticBeanstalk application exists, if not create
+  2) Uploads the WAR file to a S3 bucket
+  3) Retrieves the current ApplicationVersion number and creates the subsequent ApplicationVersion poiting to the S3 file just uploaded
+  4) Checks if there exists a Environment for the ElasticBeanstalk application, otherwise create environment "Staging"
+  5) Configure environment (auto-scaling, url, instance types, keypairs, roles, etc)
+  6) Deploys application
+
+Application Output for a Re-deploy:
+	Connecting to Amazon...
+	Checking is application already exists.
+	Application exists!
+
+	Looking for the last version deployed
+	Last version deployed was: 2
+
+	Uploading WAR to S3...
+	Upload complete!
+
+	Creating application Version
+	Application version created!
+
+	Checking if some environment already exists
+	Found exiting environment
+	Updating environment (redeploying).
+	Waiting for the environment to update (this may take a few minutes)
+	Waiting for the environment to update (this may take a few minutes)
+	Environment ready!
+
+
+#############################
+TWEET DATA
+#############################  
+I downloaded arounf 100 million tweets (10GB of data) but I only saved around 2% of those tweets because I only wanted tweets with geotagging. By the time I am writing this readme, my datastore has around 1.5 million tweets related to all keywords chosen for this project. All the tweets are stored in DynamoDB and are loaded in real-time to be shown in the map (although the javascript breaks its requests in many different AJAX requests to be able to load all data).
+
+
+#############################
 URL
 #############################
 
-http://hs2807-assignment1.elasticbeanstalk.com/
+http://hs2807-assignment1.elasticbeanstalk.com/home
 

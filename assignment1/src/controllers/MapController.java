@@ -22,7 +22,7 @@ public class MapController extends HttpServlet {
     @Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	FlashMessages.extractFlashMessages(request);
-    	request.setAttribute("keywords", Tweets.VALID_KEYWORDS);
+    	request.setAttribute("keywords", Tweets.KEYWORDS);
     	request.getRequestDispatcher("/WEB-INF/views/map.jsp").forward(request, response);
 	}
 	

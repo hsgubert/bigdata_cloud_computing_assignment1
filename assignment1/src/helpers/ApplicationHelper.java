@@ -4,6 +4,7 @@ import java.io.IOException;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+import models.Tweets;
 import models.User;
 
 import com.amazonaws.auth.AWSCredentials;
@@ -41,6 +42,7 @@ public class ApplicationHelper implements ServletContextListener {
 	
 	static public void ensureTablesExist() throws IOException {
 		User.ensureTableExists();
+		Tweets.ensureTableExists();
 	}
 
 }

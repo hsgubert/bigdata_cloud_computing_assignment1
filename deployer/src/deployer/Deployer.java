@@ -33,7 +33,7 @@ public class Deployer {
 
 	private static final String APPLICATION_NAME = "TweetMap";
 	private static final String ENVIRONMENT_NAME = "Staging";
-	private static final String DEPLOYMENTS_BUCKET_NAME = "elasticbeanstalk-us-east-1-594357468903";
+	private static final String DEPLOYMENTS_BUCKET_NAME = "elasticbeanstalk-us-east-1-9898989898";
 	private static final String WAR_FILE_PATH = "../assignment1/output/assignment1.war";
 	
 	public static void main(String[] args) throws InterruptedException {

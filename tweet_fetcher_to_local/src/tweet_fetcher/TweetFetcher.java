@@ -15,7 +15,7 @@ public class TweetFetcher {
 	//private static final String TWEET_TABLE_NAME = "tweets";
 	private static final String[] KEYWORDS = {"columbia university", "stanford", "harvard", 
 		"yale", "upenn", "carnegie mellon", "cornell", "@mit", "ucberkeley", "princeton",
-		"caltech", "duke", "vanderbilt", "dartmouth", "georgia tech", "harveymudd", 
+		"caltech", "duke", "vanderbilt", "dartmouth", "georgia tech", 
 		"purdue", "georgetown", "brown university", "rice university", "darden", "wharton", "kellogg", 
 		"booth", "sloan", "haas", "tuck", "stern", "community college"};
 	
