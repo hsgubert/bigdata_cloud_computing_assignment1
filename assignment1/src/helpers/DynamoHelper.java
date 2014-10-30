@@ -8,6 +8,7 @@ import java.util.Map;
 
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.InstanceProfileCredentialsProvider;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.dynamodbv2.model.AttributeDefinition;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
@@ -42,7 +43,9 @@ public class DynamoHelper {
 	private AmazonDynamoDBClient mDynamoDBClient = null;	
 	
 	public DynamoHelper(AWSCredentials awsCredentials) {
-		this.mDynamoDBClient = new AmazonDynamoDBClient(awsCredentials);
+//		this.mDynamoDBClient = new AmazonDynamoDBClient(awsCredentials);
+		// so amazon refreshes the credentials automatically
+		this.mDynamoDBClient = new AmazonDynamoDBClient(new InstanceProfileCredentialsProvider());
 
 		// set region to US East
 		mDynamoDBClient.setRegion(ApplicationHelper.getAmazonRegion());
